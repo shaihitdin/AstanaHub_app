@@ -1,23 +1,36 @@
-import React from 'react';
+import { Constants } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { createStackNavigator } from 'react-navigation';
+import { Provider as PaperProvider } from 'react-native-paper';
+import CalendarSnap from './components/Calendar'
+import Login from './components/Login'
+import EventSnap from './components/EventSnap'
+
 
 export default class App extends React.Component {
+  state = {
+    events: [],
+    tickets: [],
+    username: "",
+    auth_level: "",
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
+        <PaperProvider>
+          <RootStack />
+        </PaperProvider>
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const RootStack = createStackNavigator(
+  {
+    CalendarScreen: CalendarSnap,
+    LoginScreen: Login,
+    EventScreen: EventSnap,
   },
-});
+  {
+    initialRouteName: 'CalendarScreen',
+  }
+);
