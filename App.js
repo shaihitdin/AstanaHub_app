@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Provider as PaperProvider } from 'react-native-paper';
-import CalendarSnap from './components/Calendar'
+import CalendarSnap from './components/CalendarSnap'
 import Login from './components/Login'
 import EventSnap from './components/EventSnap'
 
