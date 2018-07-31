@@ -22,6 +22,8 @@ import {
   CardActions
 } from 'react-native-paper';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export default class CalendarSnap extends React.Component {
   static navigationOptions = {
@@ -105,34 +107,37 @@ export default class CalendarSnap extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <CalendarList
-          scrollEnabled={true}
-          onDayPress={day => {
-            console.log(day);
-            this.setState({ selected_day: day.dateString });
-          }}
-          onDayLongPress={day => {
-            console.log('selected day', day);
-          }}
-          monthFormat={'yyyy MMMM'}
-          hideExtraDays={false}
-          hideArrows={true}
-          firstDay={1}
-          horizontal={true}
-          // Enable paging on horizontal, default = false
-          pagingEnabled={true}
-        />
-        <Button
-          dark
-          onPress={() => this.props.navigation.push("LoginScreen")}
-        >
-          Login
-        </Button>
-        <ListSection title={'Events ' + this.getDay()}>
-          {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
-        </ListSection>
-      </View>
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <CalendarList
+            scrollEnabled={true}
+            onDayPress={day => {
+              console.log(day);
+              this.setState({ selected_day: day.dateString });
+            }}
+            onDayLongPress={day => {
+              console.log('selected day', day);
+            }}
+            monthFormat={'yyyy MMMM'}
+            hideExtraDays={false}
+            hideArrows={true}
+            firstDay={1}
+            horizontal={true}
+            // Enable paging on horizontal, default = false
+            pagingEnabled={true}
+          />
+          <Button
+            dark
+            onPress={() => this.props.navigation.push("LoginScreen")}
+          >
+            Login
+          </Button>
+          <ListSection title={'Events ' + this.getDay()}>
+            {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
+          </ListSection>
+        </View>
+      </KeyboardAwareScrollView>
+
     );
   }
 }
