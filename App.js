@@ -9,12 +9,7 @@ import EventSnap from './components/EventSnap'
 
 
 export default class App extends React.Component {
-  state = {
-    events: [],
-    tickets: [],
-    username: "",
-    auth_level: "",
-  }
+
   render() {
     return (
         <PaperProvider>
