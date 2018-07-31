@@ -8,10 +8,10 @@ export default class EventSnap extends React.Component {
   static navigationOptions = {
       header: null
   }
-  render() {
-    state = {
+  state = {
 
-    }
+  }
+  render() {
     return (
       <View style={{flex: 1}}>
 
