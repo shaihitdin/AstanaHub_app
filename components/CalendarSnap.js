@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
 import {
@@ -48,7 +49,7 @@ export default class CalendarSnap extends React.Component {
         title: 'Closing',
         description: 'Astana Hub closes',
         date: '2018-08-06',
-        time: '18:00',
+        time: '18:02',
         speaker: 'Batya',
         place: 'AlmatyArena',
       },
@@ -69,13 +70,27 @@ export default class CalendarSnap extends React.Component {
     return 'on ' + this.state.selected_day;
   };
   renderEvents = date => {
-    return this.state.events
-      .filter((item, index) => {
-        return date === item.date;
-      })
-      .map((item, index) => {
-        return <ListItem icon="" title={item.speaker + ' at ' + item.place} />;
-      });
+    {console.log(this.state.events.filter((item, index) => { return date === item.date; }))}
+    return (
+    <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
+            return (
+                <Card>
+                  <CardContent>
+                    <Title>
+                      {item.title} at {item.time} {item.day}
+                    </Title>
+                    <Paragraph>
+                      Speaker: {item.speaker + '\n'}
+
+
+                      {item.description}
+                    </Paragraph>
+
+                  </CardContent>
+                </Card>
+            );
+          }}
+    />)
   };
   formatDate = date => {
     let d = new Date(date),
@@ -109,13 +124,13 @@ export default class CalendarSnap extends React.Component {
           pagingEnabled={true}
         />
         <Button
-          primary
+          dark
           onPress={() => this.props.navigation.push("LoginScreen")}
         >
           Login
         </Button>
         <ListSection title={'Events ' + this.getDay()}>
-          {this.renderEvents(this.formatDate(Date()))}
+          {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
         </ListSection>
       </View>
     );
