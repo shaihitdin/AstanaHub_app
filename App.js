@@ -9,7 +9,6 @@ import EventSnap from './components/EventSnap'
 
 
 export default class App extends React.Component {
-
   render() {
     return (
         <PaperProvider>

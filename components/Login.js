@@ -5,8 +5,10 @@ import { Text } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
 export default class Login extends React.Component {
+  state = {
+
+  }
   render() {
-    state = {};
     return (
       <View style={{ flex: 1 }}>
         <Text>Logged in</Text>
