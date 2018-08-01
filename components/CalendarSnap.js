@@ -26,9 +26,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 
 export default class CalendarSnap extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
   state = {
     events: [
       {

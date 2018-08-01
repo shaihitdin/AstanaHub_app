@@ -1,31 +1,32 @@
 import { Constants } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { Provider as PaperProvider } from 'react-native-paper';
-import CalendarSnap from './components/CalendarSnap'
+import RootNavigator from './components/RootNavigator'
 import Login from './components/Login'
-import EventSnap from './components/EventSnap'
-import GetTicket from './components/GetTicket'
+import {
+  Toolbar,
+  ToolbarContent,
+  ToolbarAction,
+  ToolbarBackAction,
+} from 'react-native-paper';
+
 
 export default class App extends React.Component {
   render() {
     return (
         <PaperProvider>
-          <RootStack />
+          <RootDrawer />
         </PaperProvider>
     )
   }
 }
 
-const RootStack = createStackNavigator(
+
+const RootDrawer = createDrawerNavigator(
   {
-    CalendarScreen: CalendarSnap,
-    LoginScreen: Login,
-    EventScreen: EventSnap,
-    GetTicketScreen: GetTicket,
-  },
-  {
-    initialRouteName: 'CalendarScreen',
+    Home: {screen: RootNavigator},
+    LoginScreen: { screen: Login},
   }
 );
