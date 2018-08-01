@@ -72,8 +72,24 @@ export default class CalendarSnap extends React.Component {
     return 'on ' + this.state.selected_day;
   };
   renderEvents = date => {
+    if(!this.state.events.filter((item, index) => { return date === item.date; }).length) {
+      return (
+        <Card>
+          <CardContent>
+            <Title>No events!!!</Title>
+          </CardContent>
+        </Card>
+      );
+    }
+    const num = this.state.events.filter((item, index) => { return date === item.date; }).length;
     return (
-    <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
+      <React.Fragment>
+        <Card>
+          <CardContent>
+            <Title>Found {num} events: </Title>
+          </CardContent>
+        </Card>
+        <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
             return (
                 <Card onPress={() => this.props.navigation.push("EventScreen", {
                     item: item,
@@ -84,16 +100,14 @@ export default class CalendarSnap extends React.Component {
                     </Title>
                     <Paragraph>
                       Speaker: {item.speaker + '\n'}
-
-
                       {item.description}
                     </Paragraph>
-
                   </CardContent>
                 </Card>
             );
           }}
-    />)
+        />
+    </React.Fragment>)
   };
   formatDate = date => {
     let d = new Date(date),
