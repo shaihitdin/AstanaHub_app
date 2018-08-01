@@ -76,7 +76,9 @@ export default class CalendarSnap extends React.Component {
     return (
     <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
             return (
-                <Card>
+                <Card onPress={() => this.props.navigation.push("EventScreen", {
+                    item: item,
+                  })}>
                   <CardContent>
                     <Title>
                       {item.title} at {item.time} {item.day}
