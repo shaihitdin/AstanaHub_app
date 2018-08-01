@@ -5,27 +5,28 @@ import { Text, TextInput, HelperText} from "react-native-paper";
 
 export default class Login extends React.Component {
   state = {
-    text: '',
+    phoneNumber: '',
+    password: '',
   }
   isError = () => {
-    if(this.state.text.length < 2) {
+    if(this.state.phoneNumber.length < 2) {
       return true;
     }
-    if(this.state.text[0] !== '+' || this.state.text[1] != '7') {
+    if(this.state.phoneNumber[0] !== '+' || this.state.phoneNumber[1] != '7') {
       return true;
     }
-    if(this.state.text.length === 2) {
+    if(this.state.phoneNumber.length === 2) {
       return false;
     }
-    return !/^\d+$/.test(this.state.text.substring(2, this.state.text.length));
+    return !/^\d+$/.test(this.state.phoneNumber.substring(2, this.state.phoneNumber.length));
   }
   render() {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
           label="Phone number"
-          value={this.state.text}
-          onChangeText={text => this.setState({ text })}
+          value={this.state.phoneNumber}
+          onChangeText={text => this.setState({ phoneNumber: text })}
           keyboardType='phone-pad'
         />
         <HelperText
@@ -34,6 +35,11 @@ export default class Login extends React.Component {
         >
           Please start with +7
         </HelperText>
+        <TextInput
+          label="Password"
+          secureTextEntry={true}
+          onChangeText={text => this.setState({ password: text })}
+        />
       </View>
     );
   }
