@@ -6,7 +6,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import CalendarSnap from './components/CalendarSnap'
 import Login from './components/Login'
 import EventSnap from './components/EventSnap'
-
+import GetTicket from './components/GetTicket'
 
 export default class App extends React.Component {
   render() {
@@ -23,6 +23,7 @@ const RootStack = createStackNavigator(
     CalendarScreen: CalendarSnap,
     LoginScreen: Login,
     EventScreen: EventSnap,
+    GetTicketScreen: GetTicket,
   },
   {
     initialRouteName: 'CalendarScreen',

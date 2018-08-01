@@ -72,7 +72,6 @@ export default class CalendarSnap extends React.Component {
     return 'on ' + this.state.selected_day;
   };
   renderEvents = date => {
-    {console.log(this.state.events.filter((item, index) => { return date === item.date; }))}
     return (
     <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
             return (
@@ -114,7 +113,6 @@ export default class CalendarSnap extends React.Component {
           <CalendarList
             scrollEnabled={true}
             onDayPress={day => {
-              console.log(day);
               this.setState({ selected_day: day.dateString });
             }}
             onDayLongPress={day => {
