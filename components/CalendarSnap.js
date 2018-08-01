@@ -58,7 +58,7 @@ export default class CalendarSnap extends React.Component {
 
     ], // {date, time, speaker, place}
     tickets: [], // {date, time, speaker, place}
-    username: '',
+    username: 'otirik_handle',
     auth_level: '', // {guest, user}
     selected_day: '',
   };
@@ -93,6 +93,7 @@ export default class CalendarSnap extends React.Component {
             return (
                 <Card onPress={() => this.props.navigation.push("EventScreen", {
                     item: item,
+                    username: this.state.username,
                   })}>
                   <CardContent>
                     <Title>

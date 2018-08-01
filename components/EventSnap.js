@@ -28,6 +28,7 @@ export default class EventSnap extends React.Component {
   }
   render() {
     const event = this.props.navigation.getParam("item");
+    const userName = this.props.navigation.getParam("username");
     return (
       <View style={{ flex: 1 }}>
         <Card>
@@ -43,6 +44,7 @@ export default class EventSnap extends React.Component {
           <CardActions>
             <Button onPress={() => this.props.navigation.push("GetTicketScreen", {
                     item: event,
+                    username: userName,
             })}>
               Register
             </Button>

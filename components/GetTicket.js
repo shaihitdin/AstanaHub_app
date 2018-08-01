@@ -6,7 +6,7 @@ import QRCode from 'react-native-qrcode';
 
 export default class GetTicket extends React.Component {
   state = {
-    username: "cmaster",
+  
   }
   getHash = (username) => {
     return username.split('').reduce((prevHash, currVal) =>
@@ -21,7 +21,7 @@ export default class GetTicket extends React.Component {
         <Title>Registered!!!</Title>
         <Paragraph>This is your ticket:</Paragraph>
         <QRCode
-          value={this.getHash(this.state.username).toString()}
+          value={this.getHash(this.props.navigation.getParam("username")).toString()}
           size={250}
         />
       </View>
