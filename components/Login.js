@@ -1,11 +1,12 @@
 import { Constants } from "expo";
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import { Text, TextInput, HelperText} from "react-native-paper";
+import { Text, TextInput, HelperText, Button} from "react-native-paper";
+import * as firebase from 'firebase'
 
 export default class Login extends React.Component {
   state = {
-    phoneNumber: '',
+    email: '',
     password: '',
   }
   isError = () => {
@@ -20,26 +21,89 @@ export default class Login extends React.Component {
     }
     return !/^\d+$/.test(this.state.phoneNumber.substring(2, this.state.phoneNumber.length));
   }
+
+  handleLogin = () => {
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(
+      () => {
+        alert("Signed in");
+        this.props.navigation.goBack();
+      }, (error) => {
+        alert(error.message)
+      }
+    );
+  }
+  handleRegister = () => {
+    try {
+
+      if (this.state.password.length < 6) {
+        alert('Please enter at least 6 characters')
+        return
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(
+        () => {
+          alert('Account created');
+          this.setState({
+            email: '',
+            password: '',
+          })
+        }, (error) => {
+          alert(error.message)
+          return;
+        }
+      )
+
+    } catch(error) {
+      console.log(error.toString())
+    }
+    this.handleLogin();
+  }
+
+  handleForgotPassword = () => {
+
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
-          label="Phone number"
-          value={this.state.phoneNumber}
-          onChangeText={text => this.setState({ phoneNumber: text })}
-          keyboardType='phone-pad'
+          label="Email"
+          autoCapitalize="none"
+          value={this.state.email}
+          onChangeText={text => this.setState({ email: text })}
         />
-        <HelperText
-          type="error"
-          visible={this.isError()}
-        >
-          Please start with +7
-        </HelperText>
         <TextInput
           label="Password"
-          secureTextEntry={true}
+          autoCapitalize="none"
+          value={this.state.password}
           onChangeText={text => this.setState({ password: text })}
+          secureTextEntry
         />
+
+        <Button
+          full
+          rounded
+          color='blue'
+          onPress={this.handleLogin}
+        > Login
+        </Button>
+
+        <Button
+          full
+          rounded
+          color='blue'
+          onPress={this.handleRegister}
+        > Create account
+        </Button>
+
+        <Button
+          full
+          rounded
+          color='blue'
+          onPress={this.handleForgotPassword}
+        > Forgot Password
+        </Button>
+
       </View>
     );
   }
