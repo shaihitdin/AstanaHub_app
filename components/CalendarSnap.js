@@ -23,6 +23,7 @@ import {
 } from 'react-native-paper';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as firebase from 'firebase'
 
 
 export default class CalendarSnap extends React.Component {
@@ -119,6 +120,7 @@ export default class CalendarSnap extends React.Component {
     return [year, month, day].join('-');
   };
   render() {
+    console.log(firebase.auth().currentUser)
     return (
       <KeyboardAwareScrollView>
         <View style={styles.container}>
@@ -138,11 +140,14 @@ export default class CalendarSnap extends React.Component {
             // Enable paging on horizontal, default = false
             pagingEnabled={true}
           />
-          <Button
+           <Button
             dark
-            onPress={() => this.props.navigation.push("LoginScreen")}
-          >
-            Login
+              onPress={() => {
+                const user = firebase.auth().currentUser
+                firebase.database().ref('users/'+ user.uid).set({'age': 21})
+              }
+            }
+          > Push
           </Button>
           <ListSection title={'Events ' + this.getDay()}>
             {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
