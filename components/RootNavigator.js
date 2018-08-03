@@ -14,7 +14,6 @@ import EventSnap from './EventSnap'
 import GetTicket from './GetTicket'
 
 
-
 export default createStackNavigator(
   {
     Home: { screen: Login,

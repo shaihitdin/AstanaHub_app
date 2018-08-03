@@ -119,6 +119,20 @@ export default class CalendarSnap extends React.Component {
 
     return [year, month, day].join('-');
   };
+
+  componentDidUpdate() {
+
+  }
+
+  handleRefresh = () => {
+    firebase.database().ref('/events').on('value', (data) => {
+      const now = new Object (data)
+      const kek = Object.entries(now);
+      console.log(kek);
+      
+    })
+  }
+
   render() {
     console.log(firebase.auth().currentUser)
     return (
@@ -148,6 +162,12 @@ export default class CalendarSnap extends React.Component {
               }
             }
           > Push
+          </Button>
+          <Button
+            dark
+            onPress={this.handleRefresh}
+          >
+            Refresh
           </Button>
           <ListSection title={'Events ' + this.getDay()}>
             {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
