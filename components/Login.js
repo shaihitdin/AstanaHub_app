@@ -2,7 +2,8 @@ import { Constants } from "expo";
 import { View, StyleSheet } from "react-native";
 import React from "react";
 import { Text, TextInput, HelperText, Button} from "react-native-paper";
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Login extends React.Component {
   state = {
@@ -27,7 +28,12 @@ export default class Login extends React.Component {
       () => {
        // alert("Signed in");
         alert(firebase.auth().currentUser.email);
-        this.props.navigation.push('CalendarScreen');
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'CalendarScreen' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+        // this.props.navigation.push('CalendarScreen');
       }, (error) => {
         alert(error.message)
       }

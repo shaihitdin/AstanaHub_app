@@ -17,6 +17,8 @@ import GetTicket from './GetTicket'
 export default createStackNavigator(
   {
     Home: { screen: Login,
+     },
+    CalendarScreen: { screen: CalendarSnap,
       navigationOptions: ({ navigation }) => ({
         header: (
           <Toolbar>
@@ -24,9 +26,7 @@ export default createStackNavigator(
           </Toolbar>
         ),
       }),
-
-     },
-    CalendarScreen: { screen: CalendarSnap },
+    },
     EventScreen: EventSnap,
     GetTicketScreen: GetTicket,
   },
