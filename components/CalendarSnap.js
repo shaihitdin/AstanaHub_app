@@ -19,45 +19,57 @@ import {
   CardContent,
   Title,
   Paragraph,
-  CardActions
+  CardActions,
+  Toolbar,
+  ToolbarContent,
+  ToolbarAction,
+  ToolbarBackAction,
 } from 'react-native-paper';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as firebase from 'firebase'
 
-
+getMail = () => {
+  const email = firebase.auth().currentUser;
+  if(email === null) {
+    return "guest"
+  } else {
+    return email.email;
+  }
+}
+console.disableYellowBox = true;
 export default class CalendarSnap extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+    header: (
+      <Toolbar>
+        <ToolbarAction icon="account-circle" onPress={() => navigation.openDrawer()} />
+        <ToolbarContent title="Signed in as" subtitle={getMail()}/>
+        {firebase.auth().currentUser !== null && <ToolbarAction icon={require("../icons/ic_exit_to_app_black_48dp.png")} onPress={() => {
+            const resetAction = StackActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName: 'Home',
+            })],
+            });
+            firebase.auth().signOut();
+            const Logout = setInterval(function(){
+              if(getMail() === 'guest') {
+                navigation.dispatch(resetAction);
+                clearInterval(Logout);
+              }
+            }, 1000);
+          }
+            } />}
+      </Toolbar>
+    )
+    };
+  };
   state = {
-    events: [
-      {
-        title: 'Opening',
-        description: 'Astana Hub opens',
-        date: '2018-08-06',
-        time: '18:00',
-        speaker: 'Batya',
-        place: 'AlmatyArena',
-      },
-      {
-        title: 'Working',
-        description: 'Astana Hub works',
-        date: '2018-08-06',
-        time: '18:01',
-        speaker: 'Batya',
-        place: 'AlmatyArena',
-      },
-      {
-        title: 'Closing',
-        description: 'Astana Hub closes',
-        date: '2018-08-06',
-        time: '18:02',
-        speaker: 'Batya',
-        place: 'AlmatyArena',
-      },
-
-    ], // {date, time, speaker, place}
+    events: [], // {date, time, speaker, place}
     tickets: [], // {date, time, speaker, place}
     username: 'otirik_handle',
-    auth_level: '', // {guest, user}
+    auth_level: 'guest', // {guest, user, admin}
     selected_day: '',
   };
   getDay = () => {
@@ -69,6 +81,25 @@ export default class CalendarSnap extends React.Component {
     }
     return 'on ' + this.state.selected_day;
   };
+  updLevel = () => {
+    let email = firebase.auth().currentUser;
+    if(email === null) {
+      this.setState({
+        auth_level: 'guest'
+      })
+      return;
+    }
+    email = email.email;
+    if(email === "hafizbatyrkhan@gmail.com") {
+      this.setState({
+        auth_level: 'admin'
+      })
+    } else {
+      this.setState({
+        auth_level: 'user'
+      })
+    }
+  }
   renderEvents = date => {
     if(!this.state.events.filter((item, index) => { return date === item.date; }).length) {
       return (
@@ -119,11 +150,14 @@ export default class CalendarSnap extends React.Component {
 
     return [year, month, day].join('-');
   };
-
-  componentDidUpdate() {
-
+  componentWillMount() {
+    firebase.database().ref('events/all_events').on('value', (data) => {
+      this.setState({
+        events: data.val(),
+      })
+    })
+    this.updLevel();
   }
-
   handleRefresh = () => {
     firebase.database().ref('/events').on('value', (data) => {
       const now = new Object (data)
@@ -134,7 +168,7 @@ export default class CalendarSnap extends React.Component {
   }
 
   render() {
-    console.log(firebase.auth().currentUser)
+    {/*console.log(firebase.auth().currentUser)*/}
     return (
       <KeyboardAwareScrollView>
         <View style={styles.container}>

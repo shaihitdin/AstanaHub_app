@@ -42,6 +42,6 @@ export default class App extends React.Component {
 const RootDrawer = createDrawerNavigator(
   {
     Home: {screen: RootNavigator},
-    LoginScreen: { screen: Login},
+    Login: { screen: Login},
   }
 );

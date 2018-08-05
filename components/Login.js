@@ -1,5 +1,5 @@
 import { Constants } from "expo";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 import React from "react";
 import { Text, TextInput, HelperText, Button} from "react-native-paper";
 import * as firebase from 'firebase';
@@ -7,8 +7,8 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Login extends React.Component {
   state = {
-    email: '',
-    password: '',
+    email: 'hafizbatyrkhan@gmail.com',
+    password: '123456',
   }
   isError = () => {
     if(this.state.phoneNumber.length < 2) {
@@ -30,7 +30,8 @@ export default class Login extends React.Component {
         alert(firebase.auth().currentUser.email);
         const resetAction = StackActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'CalendarScreen' })],
+          actions: [NavigationActions.navigate({ routeName: 'Home',
+        })],
         });
         this.props.navigation.dispatch(resetAction);
         // this.props.navigation.push('CalendarScreen');
@@ -65,15 +66,20 @@ export default class Login extends React.Component {
     }
     this.handleLogin();
   }
-
+  componentWillMount() {
+    if(firebase.auth().currentUser !== null) {
+      alert('You have already signed in');
+      this.props.navigation.goBack();
+    }
+  }
   handleForgotPassword = () => {
 
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <TextInput
+      <View style={styles.container}>
+       <TextInput
           label="Email"
           autoCapitalize="none"
           value={this.state.email}
@@ -117,6 +123,7 @@ export default class Login extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constants.statusBarHeight
+    marginTop: Constants.statusBarHeight,
+    flex: 1
   }
 });
