@@ -52,13 +52,9 @@ export default class CalendarSnap extends React.Component {
               actions: [NavigationActions.navigate({ routeName: 'Home',
             })],
             });
-            firebase.auth().signOut();
-            const Logout = setInterval(function(){
-              if(getMail() === 'guest') {
-                navigation.dispatch(resetAction);
-                clearInterval(Logout);
-              }
-            }, 1000);
+            firebase.auth().signOut().then(() => {
+              navigation.dispatch(resetAction);
+            });
           }
             } />}
       </Toolbar>
