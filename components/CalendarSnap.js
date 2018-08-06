@@ -147,7 +147,7 @@ export default class CalendarSnap extends React.Component {
 
     return [year, month, day].join('-');
   };
-  componentWillMount() {
+  componentDidMount() {
     firebase.database().ref('events/all_events').on('value', (data) => {
       this.setState({
         events: data.val(),
@@ -160,7 +160,7 @@ export default class CalendarSnap extends React.Component {
       const now = new Object (data)
       const kek = Object.entries(now);
       console.log(data.val());
-      
+
     })
   }
 

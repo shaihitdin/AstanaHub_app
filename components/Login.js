@@ -77,7 +77,7 @@ export default class Login extends React.Component {
     }
     this.handleLogin();
   }
-  componentWillMount() {
+  componentDidMount() {
     if(firebase.auth().currentUser !== null) {
       alert('You have already signed in');
       this.props.navigation.goBack();
