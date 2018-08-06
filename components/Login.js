@@ -7,8 +7,8 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Login extends React.Component {
   state = {
-    email: 'hafizbatyrkhan@gmail.com',
-    password: '123456',
+    email: 'zhalgasovaskhat@gmail.com',
+    password: '1234567',
   }
   isError = () => {
     if(this.state.phoneNumber.length < 2) {
