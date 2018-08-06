@@ -15,19 +15,12 @@ import GetTicket from './GetTicket'
 import * as firebase from 'firebase'
 import { StackActions, NavigationActions } from 'react-navigation';
 
-getMail = () => {
-  const email = firebase.auth().currentUser;
-  if(email === null) {
-    return "guest"
-  } else {
-    return email.email;
-  }
-}
+
 export default createStackNavigator(
   {
     Home: { screen: CalendarSnap,
      },
-    LoginScreen: Login,
+    Login: Login,
     EventScreen: EventSnap,
     GetTicketScreen: GetTicket,
   },

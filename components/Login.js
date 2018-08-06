@@ -1,7 +1,7 @@
 import { Constants } from "expo";
 import { View, StyleSheet, StatusBar } from "react-native";
 import React from "react";
-import { Text, TextInput, HelperText, Button} from "react-native-paper";
+import { Text, TextInput, HelperText, Button, Toolbar, ToolbarAction, ToolbarContent} from "react-native-paper";
 import * as firebase from 'firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -10,6 +10,17 @@ export default class Login extends React.Component {
     email: 'hafizbatyrkhan@gmail.com',
     password: '123456',
   }
+  static navigationOptions = ({ navigation }) => {
+    return {
+    header: (
+      <Toolbar>
+        <ToolbarAction icon="arrow-back" onPress={() => navigation.goBack()} />
+
+      </Toolbar>
+    )
+    };
+  };
+
   isError = () => {
     if(this.state.phoneNumber.length < 2) {
       return true;
@@ -78,7 +89,7 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
        <TextInput
           label="Email"
           autoCapitalize="none"
@@ -109,21 +120,8 @@ export default class Login extends React.Component {
         > Create account
         </Button>
 
-        <Button
-          full
-          rounded
-          color='blue'
-          onPress={this.handleForgotPassword}
-        > Forgot Password
-        </Button>
 
       </View>
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flex: 1
-  }
-});
