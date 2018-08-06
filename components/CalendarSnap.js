@@ -30,6 +30,18 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as firebase from 'firebase'
 
+formatDate = date => {
+  let d = new Date(date),
+  month = '' + (d.getMonth() + 1),
+  day = '' + d.getDate(),
+  year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
 getMail = () => {
   const email = firebase.auth().currentUser;
   if(email === null) {
@@ -66,13 +78,13 @@ export default class CalendarSnap extends React.Component {
     tickets: [], // {date, time, speaker, place}
     username: 'otirik_handle',
     auth_level: 'guest', // {guest, user, admin}
-    selected_day: '',
+    selected_day: [formatDate(Date())],
     downloading: false,
   };
   getDay = () => {
     if (
       this.state.selected_day === '' ||
-      this.state.selected_day === this.formatDate(Date())
+      this.state.selected_day === formatDate(Date())
     ) {
       return 'today';
     }
@@ -137,17 +149,6 @@ export default class CalendarSnap extends React.Component {
         />
     </React.Fragment>)
   };
-  formatDate = date => {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-  };
   componentDidMount() {
     if (this.state.events.length === 0) {
       this.setState({downloading: true}, () => {
@@ -190,13 +191,16 @@ export default class CalendarSnap extends React.Component {
             hideArrows={true}
             firstDay={1}
             horizontal={true}
+            markedDates= {{
+              [this.state.selected_day] : {selected: true, selectedColor: '#81c784'},
+            }}
             // Enable paging on horizontal, default = false
             pagingEnabled={true}
           />
           {this.state.downloading ? <ActivityIndicator size="large" color="#0000ff" />
             :
             <ListSection title={'Events ' + this.getDay()}>
-            {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
+            {this.renderEvents(formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
             </ListSection>
           }
         </View>
