@@ -22,13 +22,24 @@ import {
 } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
+
 export default class EventSnap extends React.Component {
+  
   state = {
 
   }
-  render() {
+  handleRegister = () => {
     const event = this.props.navigation.getParam("item");
     const userName = this.props.navigation.getParam("username");
+    this.props.navigation.push("GetTicketScreen", {
+      item: event,
+      username: userName,
+    })
+  }
+  render() {
+    const event = this.props.navigation.getParam("item");
+    const auth_level = this.props.navigation.getParam("auth_level");
+    console.log("auth_level:", auth_level);
     return (
       <View style={{ flex: 1 }}>
         <Card>
@@ -41,14 +52,35 @@ export default class EventSnap extends React.Component {
             <Paragraph>Time: {event.time}</Paragraph>
             <Paragraph>Place: {event.place}</Paragraph>
           </CardContent>
-          <CardActions>
-            <Button onPress={() => this.props.navigation.push("GetTicketScreen", {
-                    item: event,
-                    username: userName,
-            })}>
-              Register
-            </Button>
-          </CardActions>
+          <CardContent>
+            <Title> {auth_level} </Title>
+          </CardContent>
+          {
+            (auth_level == 'user') &&
+            (<CardActions>
+              <Button onPress={this.handleRegister}>
+                Register
+              </Button>
+            </CardActions>)
+          } 
+          {
+            (auth_level == 'guest') &&
+            (
+              <CardContent>
+                <Title> Please sign in to register! </Title>
+              </CardContent>
+            )
+          }
+          {
+            (auth_level == 'admin') && 
+            (
+              <CardActions>
+              <Button>
+                Scan QR-codes
+              </Button>
+            </CardActions>
+            )
+          }
       </Card>
       </View>
     );

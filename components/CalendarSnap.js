@@ -119,6 +119,7 @@ export default class CalendarSnap extends React.Component {
                 <Card onPress={() => this.props.navigation.push("EventScreen", {
                     item: item,
                     username: this.state.username,
+                    auth_level: this.state.auth_level
                   })}>
                   <CardContent>
                     <Title>
@@ -158,7 +159,7 @@ export default class CalendarSnap extends React.Component {
     firebase.database().ref('/events').on('value', (data) => {
       const now = new Object (data)
       const kek = Object.entries(now);
-      console.log(kek);
+      console.log(data.val());
       
     })
   }
@@ -184,15 +185,6 @@ export default class CalendarSnap extends React.Component {
             // Enable paging on horizontal, default = false
             pagingEnabled={true}
           />
-           <Button
-            dark
-              onPress={() => {
-                const user = firebase.auth().currentUser
-                firebase.database().ref('users/'+ user.uid).set({'age': 21})
-              }
-            }
-          > Push
-          </Button>
           <Button
             dark
             onPress={this.handleRefresh}
