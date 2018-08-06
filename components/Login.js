@@ -132,7 +132,7 @@ export default class Login extends React.Component {
         > Create account
         </Button>
 
-        {this.state.clickable && <ActivityIndicator size="large" color="#0000ff" />}
+        {!this.state.clickable && <ActivityIndicator size="large" color="#0000ff" />}
       </View>
     );
   }
