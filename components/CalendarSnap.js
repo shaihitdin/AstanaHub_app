@@ -67,6 +67,7 @@ export default class CalendarSnap extends React.Component {
     username: 'otirik_handle',
     auth_level: 'guest', // {guest, user, admin}
     selected_day: '',
+    downloading: false,
   };
   getDay = () => {
     if (
@@ -148,12 +149,19 @@ export default class CalendarSnap extends React.Component {
     return [year, month, day].join('-');
   };
   componentDidMount() {
-    firebase.database().ref('events/all_events').on('value', (data) => {
-      this.setState({
-        events: data.val(),
+    if (this.state.events.length === 0) {
+      this.setState({downloading: true}, () => {
+        firebase.database().ref('events/all_events').on('value', (data) => {
+          firebase.auth().signOut()
+          this.setState({
+            events: data.val(),
+            downloading: false,
+          })
+        })
+
       })
-    })
-    this.updLevel();
+    }
+    this.updLevel()
   }
   handleRefresh = () => {
     firebase.database().ref('/events').on('value', (data) => {
@@ -185,15 +193,12 @@ export default class CalendarSnap extends React.Component {
             // Enable paging on horizontal, default = false
             pagingEnabled={true}
           />
-          <Button
-            dark
-            onPress={this.handleRefresh}
-          >
-            Refresh
-          </Button>
-          <ListSection title={'Events ' + this.getDay()}>
+          {this.state.downloading ? <ActivityIndicator size="large" color="#0000ff" />
+            :
+            <ListSection title={'Events ' + this.getDay()}>
             {this.renderEvents(this.formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
-          </ListSection>
+            </ListSection>
+          }
         </View>
       </KeyboardAwareScrollView>
 
