@@ -21,6 +21,7 @@ import {
   CardActions 
 } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import * as firebase from 'firebase'
 
 
 export default class EventSnap extends React.Component {
@@ -28,17 +29,22 @@ export default class EventSnap extends React.Component {
   state = {
 
   }
-  handleRegister = () => {
-    const event = this.props.navigation.getParam("item");
-    const userName = this.props.navigation.getParam("username");
-    this.props.navigation.push("GetTicketScreen", {
-      item: event,
-      username: userName,
-    })
+  handleRegister = (listOfUsers, event) => {
+    const user = firebase.auth().currentUser;
+    const userId = user.uid;
+    if (listOfUsers.includes(userId)) {
+      alert("You already have registered!")
+    } else {
+      firebase.database().ref('events/all_events/' + event.event_id.toString() + '/registeredUsers').push(user.uid);
+      alert("Successfuly registeres to the event!");
+      this.props.navigation.goBack();
+    }
   }
   render() {
     const event = this.props.navigation.getParam("item");
     const auth_level = this.props.navigation.getParam("auth_level");
+    const kek = new Object(event.registeredUsers);
+    const listOfUsers = Object.values(kek);
     console.log("auth_level:", auth_level);
     return (
       <View style={{ flex: 1 }}>
@@ -51,14 +57,12 @@ export default class EventSnap extends React.Component {
             <Paragraph>Date: {event.date}</Paragraph>
             <Paragraph>Time: {event.time}</Paragraph>
             <Paragraph>Place: {event.place}</Paragraph>
-          </CardContent>
-          <CardContent>
-            <Title> {auth_level} </Title>
+            <Paragraph>Available Seats: {event.seats - listOfUsers.length}</Paragraph>
           </CardContent>
           {
             (auth_level == 'user') &&
             (<CardActions>
-              <Button onPress={this.handleRegister}>
+              <Button onPress={() => {this.handleRegister(listOfUsers, event)}}>
                 Register
               </Button>
             </CardActions>)
