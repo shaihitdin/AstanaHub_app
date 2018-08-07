@@ -99,8 +99,8 @@ export default class CalendarSnap extends React.Component {
   };
   getDay = () => {
     if (
-      this.state.selected_day === '' ||
-      this.state.selected_day === formatDate(Date())
+
+      this.state.selected_day == formatDate(Date())
     ) {
       return 'today';
     }
@@ -130,7 +130,7 @@ export default class CalendarSnap extends React.Component {
       return (
         <Card>
           <CardContent>
-            <Title>No events!!!</Title>
+            <Title>Found 0 events</Title>
           </CardContent>
         </Card>
       );

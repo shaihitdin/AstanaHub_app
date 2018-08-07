@@ -7,8 +7,8 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Login extends React.Component {
   state = {
-    email: 'a@a.com',
-    password: '123456',
+    email: '',
+    password: '',
     clickable: true,
   }
   static navigationOptions = ({ navigation }) => {
