@@ -60,7 +60,7 @@ export default class App extends React.Component {
 
     return (
       <PaperProvider>
-        <RootDrawer />
+        <RootNavigator />
       </PaperProvider>
     )
   }

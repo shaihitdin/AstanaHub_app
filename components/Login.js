@@ -125,14 +125,14 @@ export default class Login extends React.Component {
           onPress={this.handleLogin}
         > Login
         </Button>
-
-        <Button
-          rounded
-          accent
-          onPress={this.handleRegister}
-        > Create account
-        </Button>
-
+        {
+          //<Button
+         //  rounded
+        //    accent
+        //    onPress={this.handleRegister}
+        //  > Create account
+        //  </Button>
+        }
         {!this.state.clickable && <ActivityIndicator size="large" color="#0000ff" />}
       </View>
     );

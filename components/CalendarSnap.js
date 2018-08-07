@@ -50,13 +50,22 @@ getMail = () => {
     return email.email;
   }
 }
+
+toObj = (data) => {
+  let res = {}
+  data.map((item) => {
+    res[item.date] = {marked: true, dotColor: 'blue', activeOpacity: 10};
+    return item
+  })
+  return res
+}
+
 console.disableYellowBox = true;
 export default class CalendarSnap extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
     header: (
       <Toolbar>
-        <ToolbarAction icon="account-circle" onPress={() => navigation.openDrawer()} />
         <ToolbarContent title="Signed in as" subtitle={getMail()}/>
         {firebase.auth().currentUser !== null && <ToolbarAction icon={require("../icons/ic_exit_to_app_black_48dp.png")} onPress={() => {
             const resetAction = StackActions.reset({
@@ -70,9 +79,10 @@ export default class CalendarSnap extends React.Component {
           }
             } />}
             {firebase.auth().currentUser === null && <ToolbarAction icon="account-circle" onPress={() => {
-                this.props.navigation.push('Login')
-              }
-                } />}
+                navigation.push('Login')
+                }
+              }/>
+            }
 
       </Toolbar>
     )
@@ -84,6 +94,7 @@ export default class CalendarSnap extends React.Component {
     username: 'otirik_handle',
     auth_level: 'guest', // {guest, user, admin}
     selected_day: [formatDate(Date())],
+    markingDays: {},
     downloading: false,
   };
   getDay = () => {
@@ -155,17 +166,16 @@ export default class CalendarSnap extends React.Component {
     </React.Fragment>)
   };
   componentDidMount() {
-    if (this.state.events.length === 0) {
       this.setState({downloading: true}, () => {
         firebase.database().ref('events/all_events').on('value', (data) => {
           this.setState({
             events: data.val(),
+            markingDays: toObj(data.val()),
             downloading: false,
           })
         })
 
       })
-    }
     this.updLevel()
   }
   handleRefresh = () => {
@@ -196,6 +206,7 @@ export default class CalendarSnap extends React.Component {
             firstDay={1}
             horizontal={true}
             markedDates= {{
+              ...this.state.markingDays,
               [this.state.selected_day] : {selected: true, selectedColor: '#81c784'},
             }}
             // Enable paging on horizontal, default = false
