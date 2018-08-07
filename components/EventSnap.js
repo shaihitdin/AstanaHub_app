@@ -20,7 +20,8 @@ import {
   Paragraph,
   Toolbar,
   ToolbarAction,
-  CardActions
+  CardActions,
+  ToolbarContent
 } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import * as firebase from 'firebase'
@@ -32,16 +33,37 @@ export default class EventSnap extends React.Component {
     header: (
       <Toolbar>
         <ToolbarAction icon="arrow-back" onPress={() => navigation.goBack()} />
-
+        <ToolbarContent title = 'Event'/>
       </Toolbar>
     )
     };
   };
 
-  state = {
+  formatDate = date => {
+    let d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+  
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+  
+    return [year, month, day].join('-');
+  };
 
+  state = {
+    
   }
+
+  inPast = (eventDate, currentDate) => {
+    return eventDate < currentDate;
+  }
+
   handleRegister = (listOfUsers, event) => {
+    if (this.inPast(event.date, this.formatDate(Date()))) {
+      alert("Cannot register, event has been passed");
+      return;
+    }
     const user = firebase.auth().currentUser;
     const userId = user.uid;
     if (listOfUsers.includes(userId)) {
@@ -62,8 +84,7 @@ export default class EventSnap extends React.Component {
       <View style={{ flex: 1 }}>
         <Card>
           <CardContent>
-            <Text>Event details:</Text>
-            <Title>{event.title}</Title>
+            <Title style={{textAlign: 'center'}}>{event.title}</Title>
             <Paragraph>{event.description}</Paragraph>
             <Paragraph>Speaker {event.speaker}</Paragraph>
             <Paragraph>Date: {event.date}</Paragraph>
@@ -74,7 +95,7 @@ export default class EventSnap extends React.Component {
           {
             (auth_level == 'user') &&
             (<CardActions>
-              <Button onPress={() => {this.handleRegister(listOfUsers, event)}}>
+              <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
                 Register
               </Button>
             </CardActions>)
