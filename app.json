@@ -1,5 +1,20 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "sdkVersion": "27.0.0",
+    "version": "1.0.0",
+    "name": "astana hub",
+    "slug": "astana-hub",
+    "icon": "./icons/appIcon.png",
+    "orientation": "portrait",
+    "android": {
+      "package": "com.astanahub.astanahub",
+      "permissions": []
+    },
+    "ios": {
+      "bundleIdentifier": "com.astanahub.astanahub"
+    },
+    "packagerOpts": {
+      "nonPersistent": "--nonPersistent"
+    }
   }
 }
