@@ -2,7 +2,7 @@ import { Constants } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme, Colors } from 'react-native-paper';
 import RootNavigator from './components/RootNavigator'
 import Login from './components/Login'
 import {
@@ -18,6 +18,7 @@ import 'core-js/es6/symbol'
 import 'core-js/fn/symbol/iterator'
 import * as firebase from 'firebase'
 ///
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKhrKsyhOceNiQ4hyAnO1DNyRPj5B8GxY",
@@ -36,6 +37,11 @@ firebase.initializeApp(firebaseConfig)
 //     })
 //   )
 // }
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 15,
+};
 
 export default class App extends React.Component {
 
@@ -59,7 +65,7 @@ export default class App extends React.Component {
     }
 
     return (
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <RootNavigator />
       </PaperProvider>
     )

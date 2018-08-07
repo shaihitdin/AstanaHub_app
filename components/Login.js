@@ -120,8 +120,8 @@ export default class Login extends React.Component {
         </View>
 
         <Button
-          rounded
-          accent
+          primary
+          raised
           onPress={this.handleLogin}
         > Login
         </Button>

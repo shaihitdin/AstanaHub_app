@@ -51,15 +51,15 @@ export default class EventSnap extends React.Component {
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate(),
     year = d.getFullYear();
-  
+
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-  
+
     return [year, month, day].join('-');
   };
 
   state = {
-    
+
   }
 
   inPast = (eventDate, currentDate) => {
@@ -91,7 +91,7 @@ export default class EventSnap extends React.Component {
       <View style={{ flex: 1 }}>
         <Card>
           <CardCover
-            source = {{uri: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'}}
+            source = {{uri: event.photo}}
           />
           <CardContent>
             <Title style={{textAlign: 'center'}}>{event.title}</Title>
