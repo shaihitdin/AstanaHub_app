@@ -1,14 +1,14 @@
 import { Constants } from "expo";
 import { View, StyleSheet, StatusBar, ActivityIndicator } from "react-native";
 import React from "react";
-import { Text, TextInput, HelperText, Button, Toolbar, ToolbarAction, ToolbarContent} from "react-native-paper";
+import { Text, TextInput, HelperText, Button, Toolbar, ToolbarAction, ToolbarContent, Paper} from "react-native-paper";
 import * as firebase from 'firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Login extends React.Component {
   state = {
-    email: 'zhalgasovaskhat@gmail.com',
-    password: '1234567',
+    email: 'a@a.com',
+    password: '123456',
     clickable: true,
   }
   static navigationOptions = ({ navigation }) => {
@@ -102,32 +102,33 @@ export default class Login extends React.Component {
   render() {
     return (
       <View>
-       <TextInput
-          label="Email"
-          autoCapitalize="none"
-          value={this.state.email}
-          onChangeText={text => this.setState({ email: text })}
-        />
-        <TextInput
-          label="Password"
-          autoCapitalize="none"
-          value={this.state.password}
-          onChangeText={text => this.setState({ password: text })}
-          secureTextEntry
-        />
+        <View style = {{padding: 20}}>
+           <TextInput
+              label="Email"
+              autoCapitalize="none"
+              value={this.state.email}
+              onChangeText={text => this.setState({ email: text })}
+            />
+            <TextInput
+              label="Password"
+              autoCapitalize="none"
+              value={this.state.password}
+              onChangeText={text => this.setState({ password: text })}
+              secureTextEntry
+
+            />
+        </View>
 
         <Button
-          full
           rounded
-          color='blue'
+          accent
           onPress={this.handleLogin}
         > Login
         </Button>
 
         <Button
-          full
           rounded
-          color='blue'
+          accent
           onPress={this.handleRegister}
         > Create account
         </Button>

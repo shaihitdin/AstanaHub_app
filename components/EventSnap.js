@@ -18,14 +18,26 @@ import {
   CardContent,
   Title,
   Paragraph,
-  CardActions 
+  Toolbar,
+  ToolbarAction,
+  CardActions
 } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import * as firebase from 'firebase'
 
 
 export default class EventSnap extends React.Component {
-  
+  static navigationOptions = ({ navigation }) => {
+    return {
+    header: (
+      <Toolbar>
+        <ToolbarAction icon="arrow-back" onPress={() => navigation.goBack()} />
+
+      </Toolbar>
+    )
+    };
+  };
+
   state = {
 
   }
@@ -66,17 +78,19 @@ export default class EventSnap extends React.Component {
                 Register
               </Button>
             </CardActions>)
-          } 
+          }
           {
             (auth_level == 'guest') &&
             (
-              <CardContent>
-                <Title> Please sign in to register! </Title>
-              </CardContent>
+              <CardActions>
+                <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
+                  Please sign in to register
+                </Button>
+              </CardActions>
             )
           }
           {
-            (auth_level == 'admin') && 
+            (auth_level == 'admin') &&
             (
               <CardActions>
               <Button>

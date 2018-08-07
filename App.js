@@ -28,12 +28,40 @@ const firebaseConfig = {
 }
 firebase.initializeApp(firebaseConfig)
 
+
+// const AppInit = async () => {
+//   return (
+//     firebase.auth().signOut().then(() => {
+//
+//     })
+//   )
+// }
+
 export default class App extends React.Component {
+
+  state = {
+    isLoading: true
+  }
+
+  async componentDidMount() {
+    try {
+      await firebase.auth().signOut();
+      this.setState({ isLoading: false })
+    } catch(e) {
+      console.log('error', e)
+    }
+  }
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View />
+      );
+    }
+
     return (
-        <PaperProvider>
-          <RootDrawer />
-        </PaperProvider>
+      <PaperProvider>
+        <RootDrawer />
+      </PaperProvider>
     )
   }
 }

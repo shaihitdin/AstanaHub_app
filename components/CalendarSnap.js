@@ -69,6 +69,11 @@ export default class CalendarSnap extends React.Component {
             });
           }
             } />}
+            {firebase.auth().currentUser === null && <ToolbarAction icon="account-circle" onPress={() => {
+                this.props.navigation.push('Login')
+              }
+                } />}
+
       </Toolbar>
     )
     };
@@ -153,7 +158,6 @@ export default class CalendarSnap extends React.Component {
     if (this.state.events.length === 0) {
       this.setState({downloading: true}, () => {
         firebase.database().ref('events/all_events').on('value', (data) => {
-          firebase.auth().signOut()
           this.setState({
             events: data.val(),
             downloading: false,
