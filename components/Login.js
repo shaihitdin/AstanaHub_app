@@ -52,7 +52,7 @@ export default class Login extends React.Component {
         this.props.navigation.dispatch(resetAction);
         // this.props.navigation.push('CalendarScreen');
       }, (error) => {
-        alert(error.message)
+        alert("Wrong username or password")
         this.setState({clickable: true})
       })
     })

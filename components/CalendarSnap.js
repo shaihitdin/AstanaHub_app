@@ -152,11 +152,10 @@ export default class CalendarSnap extends React.Component {
                   })}>
                   <CardContent>
                     <Title>
-                      {item.title} at {item.time} {item.day}
+                      {item.title} в {item.time} {item.day}
                     </Title>
                     <Paragraph>
-                      Speaker: {item.speaker + '\n'}
-                      {item.description}
+                      Спикер: {item.speaker + '\n'}
                     </Paragraph>
                   </CardContent>
                 </Card>

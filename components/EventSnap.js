@@ -26,6 +26,8 @@ import {
 } from "react-native-paper";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import * as firebase from 'firebase'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 const styles = StyleSheet.create({
   container: {
@@ -88,46 +90,48 @@ export default class EventSnap extends React.Component {
     const listOfUsers = Object.values(kek);
     console.log("auth_level:", auth_level);
     return (
-      <View style={{ flex: 1 }}>
-        <Card>
-          <CardCover
-            source = {{uri: event.photo}}
-          />
-          <CardContent>
-            <Title style={{textAlign: 'center'}}>{event.title}</Title>
-            <Paragraph style={styles.container}>{event.description}</Paragraph>
-            <Paragraph style={styles.container}>Speaker {event.speaker}</Paragraph>
-            <Paragraph style={styles.container}>Date: {event.date}</Paragraph>
-            <Paragraph style={styles.container}>Time: {event.time}</Paragraph>
-            <Paragraph style={styles.container}>Place: {event.place}</Paragraph>
-            <Paragraph style={styles.container}>Available Seats: {event.seats - listOfUsers.length}</Paragraph>
-          </CardContent>
-          {
-            (auth_level == 'user') &&
-            (
-              <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
-                Register
-              </Button>
-            )
-          }
-          {
-            (auth_level == 'guest') &&
-            (
-                <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
-                  Please sign in to register
+      <KeyboardAwareScrollView>
+        <View style={{ flex: 1 }}>
+          <Card>
+            <CardCover
+              source = {{uri: event.photo}}
+            />
+            <CardContent>
+              <Title style={{textAlign: 'center'}}>{event.title}</Title>
+              <Paragraph style={styles.container}>{event.description}</Paragraph>
+              <Paragraph style={styles.container}>Спикер: {event.speaker}</Paragraph>
+              <Paragraph style={styles.container}>День мероприятия: {event.date}</Paragraph>
+              <Paragraph style={styles.container}>Время проведения: {event.time}</Paragraph>
+              <Paragraph style={styles.container}>Место проведения: {event.place}</Paragraph>
+              <Paragraph style={styles.container}>Осталось {event.seats - listOfUsers.length} свободных мест</Paragraph>
+            </CardContent>
+            {
+              (auth_level == 'user') &&
+              (
+                <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
+                  Register
                 </Button>
-            )
-          }
-          {
-            (auth_level == 'admin') &&
-            (
-              <Button>
-                Scan QR-codes
-              </Button>
-            )
-          }
-      </Card>
-      </View>
+              )
+            }
+            {
+              (auth_level == 'guest') &&
+              (
+                  <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
+                    Please sign in to register
+                  </Button>
+              )
+            }
+            {
+              (auth_level == 'admin') &&
+              (
+                <Button>
+                  Scan QR-codes
+                </Button>
+              )
+            }
+        </Card>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
