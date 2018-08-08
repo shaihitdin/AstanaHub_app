@@ -45,7 +45,7 @@ formatDate = date => {
 getMail = () => {
   const email = firebase.auth().currentUser;
   if(email === null) {
-    return "гость"
+    return "guest"
   } else {
     return email.email;
   }
@@ -66,7 +66,7 @@ export default class CalendarSnap extends React.Component {
     return {
     header: (
       <Toolbar>
-        <ToolbarContent title="Пользователь:" subtitle={getMail()}/>
+        <ToolbarContent title="Signed in as" subtitle={getMail()}/>
         {firebase.auth().currentUser !== null && <ToolbarAction icon={require("../icons/ic_exit_to_app_black_48dp.png")} onPress={() => {
             const resetAction = StackActions.reset({
               index: 0,
@@ -102,9 +102,9 @@ export default class CalendarSnap extends React.Component {
 
       this.state.selected_day == formatDate(Date())
     ) {
-      return 'сегодня';
+      return 'today';
     }
-    return this.state.selected_day;
+    return 'on ' + this.state.selected_day;
   };
   updLevel = () => {
     let email = firebase.auth().currentUser;
@@ -130,7 +130,7 @@ export default class CalendarSnap extends React.Component {
       return (
         <Card>
           <CardContent>
-            <Title>Найдено 0 ивентов</Title>
+            <Title>Found 0 events</Title>
           </CardContent>
         </Card>
       );
@@ -140,7 +140,7 @@ export default class CalendarSnap extends React.Component {
       <React.Fragment>
         <Card>
           <CardContent>
-            <Title>Найдено {num} ивентов: </Title>
+            <Title>Found {num} events: </Title>
           </CardContent>
         </Card>
         <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
@@ -152,10 +152,10 @@ export default class CalendarSnap extends React.Component {
                   })}>
                   <CardContent>
                     <Title>
-                      {item.title} в {item.time} {item.day}
+                      {item.title} at {item.time} {item.day}
                     </Title>
                     <Paragraph>
-                      Спикер: {item.speaker + '\n'}
+                      Speaker: {item.speaker + '\n'}
                     </Paragraph>
                   </CardContent>
                 </Card>
@@ -213,7 +213,7 @@ export default class CalendarSnap extends React.Component {
           />
           {this.state.downloading ? <ActivityIndicator size="large" color="#0000ff" />
             :
-            <ListSection title={'Ивенты ' + this.getDay()}>
+            <ListSection title={'Events ' + this.getDay()}>
             {this.renderEvents(formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
             </ListSection>
           }

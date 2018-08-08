@@ -42,7 +42,7 @@ export default class EventSnap extends React.Component {
     header: (
       <Toolbar>
         <ToolbarAction icon="arrow-back" onPress={() => navigation.goBack()} />
-        <ToolbarContent title = 'Ивент'/>
+        <ToolbarContent title = 'Event'/>
       </Toolbar>
     )
     };
@@ -70,16 +70,16 @@ export default class EventSnap extends React.Component {
 
   handleRegister = (listOfUsers, event) => {
     if (this.inPast(event.date, this.formatDate(Date()))) {
-      alert("Невозможно зарегистрироваться, ивент уже прошёл");
+      alert("Cannot register, event has been passed");
       return;
     }
     const user = firebase.auth().currentUser;
     const userId = user.uid;
     if (listOfUsers.includes(userId)) {
-      alert("Вы уже зарегистрировались!")
+      alert("You already have registered!")
     } else {
       firebase.database().ref('events/all_events/' + event.event_id.toString() + '/registeredUsers').push(user.uid);
-      alert("Вы успешно зарегистрировались на ивент!");
+      alert("Successfuly registeres to the event!");
       this.props.navigation.goBack();
     }
   }
@@ -99,17 +99,17 @@ export default class EventSnap extends React.Component {
             <CardContent>
               <Title style={{textAlign: 'center'}}>{event.title}</Title>
               <Paragraph style={styles.container}>{event.description}</Paragraph>
-              <Paragraph style={styles.container}>Спикер: {event.speaker}</Paragraph>
-              <Paragraph style={styles.container}>День мероприятия: {event.date}</Paragraph>
-              <Paragraph style={styles.container}>Время проведения: {event.time}</Paragraph>
-              <Paragraph style={styles.container}>Место проведения: {event.place}</Paragraph>
-              <Paragraph style={styles.container}>Осталось {event.seats - listOfUsers.length} свободных мест</Paragraph>
+              <Paragraph style={styles.container}>Speaker: {event.speaker}</Paragraph>
+              <Paragraph style={styles.container}>Date: {event.date}</Paragraph>
+              <Paragraph style={styles.container}>Time: {event.time}</Paragraph>
+              <Paragraph style={styles.container}>Place: {event.place}</Paragraph>
+              <Paragraph style={styles.container}> {event.seats - listOfUsers.length} seats left</Paragraph>
             </CardContent>
             {
               (auth_level == 'user') &&
               (
                 <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
-                  Зарегистрироваться
+                  Register
                 </Button>
               )
             }
@@ -117,7 +117,7 @@ export default class EventSnap extends React.Component {
               (auth_level == 'guest') &&
               (
                   <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
-                    Пожалуйста войдите, чтобы зарегистрироваться
+                    Please sign in to register
                   </Button>
               )
             }
@@ -125,7 +125,7 @@ export default class EventSnap extends React.Component {
               (auth_level == 'admin') &&
               (
                 <Button>
-                  Сканировать QR-код
+                  Scan QR-codes
                 </Button>
               )
             }
