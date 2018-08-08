@@ -45,7 +45,7 @@ formatDate = date => {
 getMail = () => {
   const email = firebase.auth().currentUser;
   if(email === null) {
-    return "guest"
+    return "гость"
   } else {
     return email.email;
   }
@@ -66,7 +66,7 @@ export default class CalendarSnap extends React.Component {
     return {
     header: (
       <Toolbar>
-        <ToolbarContent title="Signed in as" subtitle={getMail()}/>
+        <ToolbarContent title="Пользователь:" subtitle={getMail()}/>
         {firebase.auth().currentUser !== null && <ToolbarAction icon={require("../icons/ic_exit_to_app_black_48dp.png")} onPress={() => {
             const resetAction = StackActions.reset({
               index: 0,
