@@ -102,9 +102,9 @@ export default class CalendarSnap extends React.Component {
 
       this.state.selected_day == formatDate(Date())
     ) {
-      return 'today';
+      return 'сегодня';
     }
-    return 'on ' + this.state.selected_day;
+    return this.state.selected_day;
   };
   updLevel = () => {
     let email = firebase.auth().currentUser;
@@ -130,7 +130,7 @@ export default class CalendarSnap extends React.Component {
       return (
         <Card>
           <CardContent>
-            <Title>Found 0 events</Title>
+            <Title>Найдено 0 ивентов</Title>
           </CardContent>
         </Card>
       );
@@ -140,7 +140,7 @@ export default class CalendarSnap extends React.Component {
       <React.Fragment>
         <Card>
           <CardContent>
-            <Title>Found {num} events: </Title>
+            <Title>Найдено {num} ивентов: </Title>
           </CardContent>
         </Card>
         <FlatList data = {this.state.events.filter((item, index) => { return date === item.date; })} keyExtractor = {(item, index) => index.toString()} renderItem={({ item }) => {
@@ -213,7 +213,7 @@ export default class CalendarSnap extends React.Component {
           />
           {this.state.downloading ? <ActivityIndicator size="large" color="#0000ff" />
             :
-            <ListSection title={'Events ' + this.getDay()}>
+            <ListSection title={'Ивенты ' + this.getDay()}>
             {this.renderEvents(formatDate(this.state.selected_day ? this.state.selected_day : Date()))}
             </ListSection>
           }

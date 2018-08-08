@@ -42,7 +42,7 @@ export default class EventSnap extends React.Component {
     header: (
       <Toolbar>
         <ToolbarAction icon="arrow-back" onPress={() => navigation.goBack()} />
-        <ToolbarContent title = 'Event'/>
+        <ToolbarContent title = 'Ивент'/>
       </Toolbar>
     )
     };
@@ -70,16 +70,16 @@ export default class EventSnap extends React.Component {
 
   handleRegister = (listOfUsers, event) => {
     if (this.inPast(event.date, this.formatDate(Date()))) {
-      alert("Cannot register, event has been passed");
+      alert("Невозможно зарегистрироваться, ивент уже прошёл");
       return;
     }
     const user = firebase.auth().currentUser;
     const userId = user.uid;
     if (listOfUsers.includes(userId)) {
-      alert("You already have registered!")
+      alert("Вы уже зарегистрировались!")
     } else {
       firebase.database().ref('events/all_events/' + event.event_id.toString() + '/registeredUsers').push(user.uid);
-      alert("Successfuly registeres to the event!");
+      alert("Вы успешно зарегистрировались на ивент!");
       this.props.navigation.goBack();
     }
   }
@@ -109,7 +109,7 @@ export default class EventSnap extends React.Component {
               (auth_level == 'user') &&
               (
                 <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
-                  Register
+                  Зарегистрироваться
                 </Button>
               )
             }
@@ -117,7 +117,7 @@ export default class EventSnap extends React.Component {
               (auth_level == 'guest') &&
               (
                   <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
-                    Please sign in to register
+                    Пожалуйста войдите, чтобы зарегистрироваться
                   </Button>
               )
             }
@@ -125,7 +125,7 @@ export default class EventSnap extends React.Component {
               (auth_level == 'admin') &&
               (
                 <Button>
-                  Scan QR-codes
+                  Сканировать QR-код
                 </Button>
               )
             }

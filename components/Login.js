@@ -52,7 +52,7 @@ export default class Login extends React.Component {
         this.props.navigation.dispatch(resetAction);
         // this.props.navigation.push('CalendarScreen');
       }, (error) => {
-        alert("Wrong username or password")
+        alert("Невозможно авторизироваться")
         this.setState({clickable: true})
       })
     })
@@ -65,13 +65,13 @@ export default class Login extends React.Component {
       try {
 
         if (this.state.password.length < 6) {
-          alert('Please enter at least 6 characters')
+          alert('Введите хотя-бы 6 символов')
           return
         }
 
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(
           () => {
-            alert('Account created');
+            alert('Аккаунт создан');
             this.setState({
               email: '',
               password: '',
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
   componentDidMount() {
     console.log(firebase.auth().currentUser);
     if(firebase.auth().currentUser) {
-      alert('You have already signed in');
+      alert('Вы уже вошли в аккаунт');
       this.props.navigation.goBack();
     }
   }
