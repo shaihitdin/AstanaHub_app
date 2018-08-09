@@ -12,6 +12,7 @@ import CalendarSnap from './CalendarSnap'
 import Login from './Login'
 import EventSnap from './EventSnap'
 import GetTicket from './GetTicket'
+import ScanTicket from './ScanTicket'
 import * as firebase from 'firebase'
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -23,6 +24,7 @@ export default createStackNavigator(
     Login: Login,
     EventScreen: EventSnap,
     GetTicketScreen: GetTicket,
+    ScanTicketScreen: ScanTicket,
   },
 
 );

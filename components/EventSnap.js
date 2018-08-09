@@ -106,7 +106,7 @@ export default class EventSnap extends React.Component {
               <Paragraph style={styles.container}> {event.seats - listOfUsers.length} seats left</Paragraph>
             </CardContent>
             {
-              (auth_level == 'user') &&
+              (auth_level === 'user') &&
               (
                 <Button raised primary onPress={() => {this.handleRegister(listOfUsers, event)}}>
                   Register
@@ -114,7 +114,7 @@ export default class EventSnap extends React.Component {
               )
             }
             {
-              (auth_level == 'guest') &&
+              (auth_level === 'guest') &&
               (
                   <Button raised  primary onPress={() => this.props.navigation.push('Login')}>
                     Please sign in to register
@@ -122,9 +122,11 @@ export default class EventSnap extends React.Component {
               )
             }
             {
-              (auth_level == 'admin') &&
+              (auth_level === 'admin') &&
               (
-                <Button>
+                <Button raised primary onPress={() => this.props.navigation.push('ScanTicketScreen',{
+                  event: event,
+                })}>
                   Scan QR-codes
                 </Button>
               )
